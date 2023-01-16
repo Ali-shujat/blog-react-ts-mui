@@ -7,13 +7,14 @@ import Tab from '@mui/material/Tab';
 import axios from "axios";
 import { useEffect, useState } from 'react';
 import { IPost } from './types';
+import Post from './Post';
 
 
 
 
 function Posts() {
     const [value, setValue] = useState('1');
-    const [Post, setPost] = useState<IPost[]>(
+    const [post, setPost] = useState<IPost[]>(
         [{
             id: 1,
             title: "His mother had always taught him",
@@ -27,9 +28,7 @@ function Posts() {
             reactions: 2
         }]
     );
-    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-        setValue(newValue);
-    };
+
     useEffect(() => {
         axios.get("https://dummyjson.com/posts")
             .then((response) => {
@@ -44,6 +43,9 @@ function Posts() {
                 }
             });
     }, []);
+    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+        setValue(newValue);
+    };
     const theme = createTheme();
     return (
         <>
@@ -85,31 +87,65 @@ function Posts() {
 
                             </Stack>
                             <Box sx={{ width: '100%', typography: 'body1', pt: 4 }}>
-                                <TabContext value={value}>
-                                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                        <TabList onChange={handleChange} aria-label="lab API tabs example">
-                                            <Tab label="French" value="1" />
-                                            <Tab label="History" value="2" />
-                                            <Tab label="Crime" value="3" />
-                                            <Tab label="American" value="4" />
-                                            <Tab label="Fiction" value="5" />
-                                        </TabList>
-                                    </Box>
-                                    <TabPanel value="1">french</TabPanel>
-                                    <TabPanel value="2">"history"</TabPanel>
-                                    <TabPanel value="3">"crime"</TabPanel>
-                                    <TabPanel value="4">"american"</TabPanel>
-                                    <TabPanel value="5">"fiction"</TabPanel>
-                                </TabContext>
+
                             </Box>
                         </Container>
                     </Box>
+                    <Container>
+
+                        <TabContext value={value}>
+                            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                                <TabList onChange={handleChange} aria-label="lab API tabs example">
+                                    <Tab label="History" value="1" />
+                                    <Tab label="French" value="2" />
+                                    <Tab label="Crime" value="3" />
+                                    <Tab label="American" value="4" />
+                                    <Tab label="Fiction" value="5" />
+                                </TabList>
+                            </Box>
+                            <TabPanel value="1">
+                                <div>
+                                    {post.map((record) => (
+                                        (record.tags[0] === 'history' || record.tags[1] === 'history' || record.tags[3] === 'history')
+                                            ? (<Post
+                                                id={record.id}
+                                                title={record.title}
+                                                body={record.body}
+                                                userId={record.userId}
+                                                tags={record.tags}
+                                                reactions={record.reactions} />)
+                                            : null
+                                    ))}
+                                </div>
+                            </TabPanel>
+                            <TabPanel value="2">
+                                {post.map((record) => {
+                                    return (
+                                        (record.tags[0] === 'french' || record.tags[1] === 'french' || record.tags[3] === 'french')
+                                            ? (
+                                                <Post
+                                                    id={record.id}
+                                                    title={record.title}
+                                                    body={record.body}
+                                                    userId={record.userId}
+                                                    tags={record.tags}
+                                                    reactions={record.reactions} />
+                                            )
+                                            : null
+                                    );
+                                })}
+                            </TabPanel>
+                            <TabPanel value="3">"crime"</TabPanel>
+                            <TabPanel value="4">"american"</TabPanel>
+                            <TabPanel value="5">"fiction"</TabPanel>
+                        </TabContext>
+                    </Container>
 
                     {/* mapping */}
 
                     <Container sx={{ py: 8 }} maxWidth="md">
                         {/* End hero unit */}
-                        <Grid container spacing={1}>
+                        {/* <Grid container spacing={1}>
                             {Post.map((card) => (
                                 <Grid item key={card.id} xs={12} sm={12} md={12}>
                                     <Card
@@ -134,6 +170,7 @@ function Posts() {
                                             </Typography>
 
                                         </CardContent>
+
                                         <CardActions disableSpacing={true} sx={{
                                             display: "flex",
                                             justifyContent: "space-between",
@@ -142,9 +179,9 @@ function Posts() {
                                             <IconButton aria-label="add to favorites">
                                                 {card.tags[0]} | {card.tags[1]} | {card.tags[2]}
                                             </IconButton>
+                                            <IconButton><ShareIcon /></IconButton>
                                             <IconButton>
-                                            <FavoriteIcon />
-                                                <ShareIcon />
+                                                <FavoriteIcon />{card.reactions}
                                             </IconButton>
 
                                         </CardActions>
@@ -152,7 +189,7 @@ function Posts() {
                                     </Card>
                                 </Grid>
                             ))}
-                        </Grid>
+                        </Grid> */}
                     </Container>
                 </main>
 
