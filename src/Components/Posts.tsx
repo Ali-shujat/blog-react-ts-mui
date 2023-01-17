@@ -1,15 +1,12 @@
 import { ThemeProvider } from '@emotion/react';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { AppBar, Box, Button, Card, CardActions, CardContent, Container, createTheme, CssBaseline, Grid, IconButton, Stack, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Button, Container, CssBaseline, Stack, Toolbar, Typography } from '@mui/material';
 import Tab from '@mui/material/Tab';
 import axios from "axios";
 import { useEffect, useState } from 'react';
-import { IPost } from './types';
+import { theme } from '../shared/myTheme';
 import Post from './Post';
-
-
+import { IPost } from './types';
 
 
 function Posts() {
@@ -46,7 +43,7 @@ function Posts() {
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
     };
-    const theme = createTheme();
+
     return (
         <>
             <ThemeProvider theme={theme}>
@@ -63,8 +60,8 @@ function Posts() {
                     <Box
                         sx={{
                             bgcolor: 'background.paper',
-                            pt: 8,
-                            pb: 6,
+                            pt: 6,
+                            pb: 4,
                         }}
                     >
                         <Container maxWidth="sm">
@@ -91,10 +88,10 @@ function Posts() {
                             </Box>
                         </Container>
                     </Box>
-                    <Container>
+                    <Container sx={{ py: 8 }} maxWidth="md">
 
                         <TabContext value={value}>
-                            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                            <Box sx={{ borderBottom: 1, borderColor: 'divider', alignContent: 'center' }}>
                                 <TabList onChange={handleChange} aria-label="lab API tabs example">
                                     <Tab label="History" value="1" />
                                     <Tab label="French" value="2" />
@@ -135,9 +132,51 @@ function Posts() {
                                     );
                                 })}
                             </TabPanel>
-                            <TabPanel value="3">"crime"</TabPanel>
-                            <TabPanel value="4">"american"</TabPanel>
-                            <TabPanel value="5">"fiction"</TabPanel>
+                            <TabPanel value="3"> {post.map((record) => {
+                                return (
+                                    (record.tags[0] === 'crime' || record.tags[1] === 'crime' || record.tags[3] === 'crime')
+                                        ? (
+                                            <Post
+                                                id={record.id}
+                                                title={record.title}
+                                                body={record.body}
+                                                userId={record.userId}
+                                                tags={record.tags}
+                                                reactions={record.reactions} />
+                                        )
+                                        : null
+                                );
+                            })}</TabPanel>
+                            <TabPanel value="4"> {post.map((record) => {
+                                return (
+                                    (record.tags[0] === 'american' || record.tags[1] === 'american' || record.tags[3] === 'american')
+                                        ? (
+                                            <Post
+                                                id={record.id}
+                                                title={record.title}
+                                                body={record.body}
+                                                userId={record.userId}
+                                                tags={record.tags}
+                                                reactions={record.reactions} />
+                                        )
+                                        : null
+                                );
+                            })}</TabPanel>
+                            <TabPanel value="5"> {post.map((record) => {
+                                return (
+                                    (record.tags[0] === 'fiction' || record.tags[1] === 'fiction' || record.tags[3] === 'fiction')
+                                        ? (
+                                            <Post
+                                                id={record.id}
+                                                title={record.title}
+                                                body={record.body}
+                                                userId={record.userId}
+                                                tags={record.tags}
+                                                reactions={record.reactions} />
+                                        )
+                                        : null
+                                );
+                            })}</TabPanel>
                         </TabContext>
                     </Container>
 

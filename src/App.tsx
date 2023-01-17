@@ -1,13 +1,20 @@
+import { CssBaseline } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
 import './App.css';
 import Posts from './Components/Posts';
+import { theme } from './shared/myTheme';
 
 function App() {
+
   return (
-    <div className="App">
-      
-       <Posts></Posts>
-     
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline enableColorScheme />
+      <div className="App">
+
+        <Posts></Posts>
+
+      </div>
+    </ThemeProvider>
   );
 }
 

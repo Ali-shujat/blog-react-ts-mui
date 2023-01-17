@@ -24,10 +24,11 @@ function Post(props: IPost) {
                     }}
                 >
                     <CardContent sx={{ flexGrow: 1 }}>
-                        <Typography gutterBottom component="h3" color="indigo">
+                        <Typography gutterBottom component="h2" color="brown"
+                            sx={{ fontWeight: 'bold', textTransform: 'uppercase' }}>
                             Title : {title}
                         </Typography>
-                        <Typography color="indigo" >
+                        <Typography color="darkolivegreen" sx={{}}>
                             Description : {body}
                         </Typography>
 
